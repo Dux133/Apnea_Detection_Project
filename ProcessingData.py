@@ -54,31 +54,31 @@ def clean_and_interpolate(df):
 
     return df
 
-# def wavelet_features(signal, wavelet='db4', level=4):
-#     """
-#     Oblicza cechy falkowe (energia i odchylenie standardowe) dla sygnału.
-#     - Dla sygnału stałego zwraca wartości NaN
-#     - Używa falki db4 i 4 poziomów dekompozycji
+def wavelet_features(signal, wavelet='db4', level=4):
+    """
+    Oblicza cechy falkowe (energia i odchylenie standardowe) dla sygnału.
+    - Dla sygnału stałego zwraca wartości NaN
+    - Używa falki db4 i 4 poziomów dekompozycji
     
-#     Computes wavelet features (energy and standard deviation) for a signal.
-#     - Returns NaN values for constant signals
-#     - Uses db4 wavelet and 4 decomposition levels
-#     """
-#     if np.all(signal == signal[0]):  # Check for constant signal
-#         return {f'w_energy_d{i}': np.nan for i in range(1, level+1)} | \
-#                {f'w_std_d{i}': np.nan for i in range(1, level+1)}
+    Computes wavelet features (energy and standard deviation) for a signal.
+    - Returns NaN values for constant signals
+    - Uses db4 wavelet and 4 decomposition levels
+    """
+    if np.all(signal == signal[0]):  # sygnał stały
+        return {f'w_energy_d{i}': np.nan for i in range(1, level+1)} | \
+               {f'w_std_d{i}': np.nan for i in range(1, level+1)}
     
-#     try:
-#         coeffs = pywt.wavedec(signal, wavelet, level=level)
-#         features = {}
-#         for i, c in enumerate(coeffs[1:], 1):
-#             std = np.std(c)
-#             features[f'w_energy_d{i}'] = np.sum(np.square(c)) if np.isfinite(std) and std > 0 else np.nan
-#             features[f'w_std_d{i}'] = std if np.isfinite(std) and std > 0 else np.nan
-#         return features
-#     except Exception:
-#         return {f'w_energy_d{i}': np.nan for i in range(1, level+1)} | \
-#                {f'w_std_d{i}': np.nan for i in range(1, level+1)}
+    try:
+        coeffs = pywt.wavedec(signal, wavelet, level=level)
+        features = {}
+        for i, c in enumerate(coeffs[1:], 1):
+            std = np.std(c)
+            features[f'w_energy_d{i}'] = np.sum(np.square(c)) if np.isfinite(std) and std > 0 else np.nan
+            features[f'w_std_d{i}'] = std if np.isfinite(std) and std > 0 else np.nan
+        return features
+    except Exception:
+        return {f'w_energy_d{i}': np.nan for i in range(1, level+1)} | \
+               {f'w_std_d{i}': np.nan for i in range(1, level+1)}
 
 # def wavelet_features(signal, wavelet='db4', level=4):
 #     """

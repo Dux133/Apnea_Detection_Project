@@ -27,7 +27,7 @@ def process_file(filename, input_folder):
     """Przetwarzaj pojedynczy plik CSV i wylicz metryki / Process single CSV file and calculate metrics"""
     try:
         filepath = os.path.join(input_folder, filename)
-        # Wczytaj tylko kolumny związane z apneą / Load only apnea-related columns
+        # Wczytaj tylko kolumny bezdechu  / Load only apnea-related columns
         df = pd.read_csv(filepath, usecols=['Obstructive_Apnea', 'Central_Apnea', 'Hypopnea', 'Multiple_Events'])
         
         # Oblicz występowanie bezdechu w każdej próbce / Calculate apnea presence in each sample
@@ -53,7 +53,7 @@ def check_distributions(train_df, test_df, features):
     print("---------------------------------------------------------------")
     
     for feature in features:
-        # Oblicz statystykę KS / Calculate KS statistic
+        # Oblicza statystykę KS / Calculate KS statistic
         _, p_value = ks_2samp(train_df[feature], test_df[feature])
         
         # Określ status w dwóch językach / Determine status in both languages

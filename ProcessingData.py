@@ -117,7 +117,7 @@ def wavelet_features(signal, wavelet='db4', level=4):
     if np.all(signal == signal[0]):  # sygnał stały
         return {
             'w_energy_d3': np.nan,
-            'w_std_d1': np.nan  # można usunąć jeśli nie potrzebujesz
+            'w_std_d1': np.nan 
         }
 
     try:
@@ -133,7 +133,7 @@ def wavelet_features(signal, wavelet='db4', level=4):
     except Exception:
         return {
             'w_energy_d3': np.nan,
-            'w_std_d1': np.nan  # dopasuj, jeśli usuwasz std całkowicie
+            'w_std_d1': np.nan 
         }
 
 
@@ -224,13 +224,13 @@ def extract_features_in_sliding_windows(df, window_sec=30, step_sec=10):
             'start_time': window['TIMESTAMP'].iloc[0],
             'end_time': window['TIMESTAMP'].iloc[-1],
             'sao2_mean': window['SAO2'].mean(),
-             #'sao2_min': window['SAO2'].min(),
-             #'sao2_max': window['SAO2'].max(),
-             #'sao2_std': window['SAO2'].std(),
+            'sao2_min': window['SAO2'].min(),
+            'sao2_max': window['SAO2'].max(),
+            'sao2_std': window['SAO2'].std(),
             'sao2_drop': window['SAO2'].max() - window['SAO2'].min(),
             'hr_mean': window['HR'].mean(),
-             #'hr_min': window['HR'].min(),
-             #'hr_max': window['HR'].max(),
+            'hr_min': window['HR'].min(),
+            'hr_max': window['HR'].max(),
             'hr_std': window['HR'].std(),
             'hr_delta': window['HR'].iloc[-1] - window['HR'].iloc[0],
             'sleep_stage_mode': window['Sleep_Stage_Coded'].mode().iloc[0] if not window['Sleep_Stage_Coded'].mode().empty else -1,
@@ -238,8 +238,8 @@ def extract_features_in_sliding_windows(df, window_sec=30, step_sec=10):
             'central_apnea': int(window['Central_Apnea'].max() == 1),
             'hr_slope_mean': np.mean(np.gradient(window['HR'])),
             'sao2_slope_mean': np.mean(np.gradient(window['SAO2'])),
-            # 'hr_range': window['HR'].max() - window['HR'].min(),
-            # 'hr_jump': np.abs(window['HR'].iloc[-1] - window['HR'].iloc[0])
+            'hr_range': window['HR'].max() - window['HR'].min(),
+            'hr_jump': np.abs(window['HR'].iloc[-1] - window['HR'].iloc[0])
         }
 
         for signal_name in ['SAO2', 'HR']:
